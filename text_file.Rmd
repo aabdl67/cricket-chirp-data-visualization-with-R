@@ -1,30 +1,167 @@
 ---
-title: "Untitled"
+title: " Cricket Chirp Analysis - Visualizations"
 author: "Abubakar Abdallah"
 date: "2025-08-05"
-output: html_document
+output: "html_document"
+Description: "Exploratory analysis of cricket chirp rates vs. temperature"
+Data Source: "modeldata::crickets (McDonald, 2009)"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# ======================
+# SETUP
+# ======================
+
+# Install packages
+```install.packages(c("tidyverse", "modeldata")) 
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+# Load libraries
+```   
+library(tidyverse)
+library(modeldata)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# ======================
+# DATA LOADING
+# ======================
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Load dataset
+```
+data(crickets)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Quick inspection
+```
+head(crickets)
+str(crickets)
+view(crickets)
+```
+
+
+# ======================
+# VISUALIZATIONS
+# ======================
+
+# ----------------------
+# Original Scatterplots 
+# ----------------------
+
+# Colored by species with smooth lines
+```
+ggplot(crickets, aes(x=temp, y=rate, color=species, fill=species)) +
+  geom_point() +
+  labs(x="Temperature", y="Chirp rate", color="Species",
+       title="Cricket chirps", caption="Source: McDonald (2009)") +
+  scale_color_brewer(palette="Dark2") 
+```
+
+# Modified point aesthetics
+```
+ggplot(crickets, aes(x=temp, y=rate)) +
+  geom_point(color="red", size=2.5, alpha=.3, shape="square") +
+  labs(x="Temperature", y="Chirp rate", 
+       title="Cricket chirps", caption="Source: McDonald (2009)")
+```       
+
+# With smoothing
+```
+ggplot(crickets, aes(x=temp, y=rate)) +
+  geom_point() +
+  geom_smooth() +
+  labs(x="Temperature", y="Chirp rate", 
+       title="Cricket chirps", caption="Source: McDonald (2009)")
+```
+
+# Linear model
+```
+ggplot(crickets, aes(x=temp, y=rate)) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE) +
+  labs(x="Temperature", y="Chirp rate", 
+       title="Cricket chirps", caption="Source: McDonald (2009)")
+```
+
+# By species with linear models
+```
+ggplot(crickets, aes(x=temp, y=rate, color=species)) +
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE) +
+  labs(x="Temperature", y="Chirp rate", color="Species",
+       title="Cricket chirps", caption="Source: McDonald (2009)") +
+  scale_color_brewer(palette="Dark2") 
+```
+
+
+# ----------------------
+# Original Distribution Plots 
+# ----------------------
+
+# Histogram
+```
+ggplot(crickets, aes(x=rate)) +
+  geom_histogram(bins=15)
+  ```
+
+# Frequency polygon
+```
+ggplot(crickets, aes(x=rate)) +
+  geom_freqpoly(bins=15)
+```
+
+# Bar plot
+```
+ggplot(crickets, aes(x=species)) +
+  geom_bar(color="blue", fill="lightblue")
+  ```
+
+# Colored bar plot
+```
+ggplot(crickets, aes(x=species, fill=species)) +
+  geom_bar(show.legend=FALSE) +
+  scale_fill_brewer(palette="Dark2")
+```
+
+# Boxplot
+```
+ggplot(crickets, aes(x=species, y=rate, color=species)) +
+  geom_boxplot(show.legend=FALSE) +
+  scale_fill_brewer(palette="Dark2") +
+  theme_minimal()
+```
+
+
+# ----------------------
+# Original Faceted Plots
+# ----------------------
+
+# Histogram by species (overlaid)
+```
+ggplot(crickets, aes(x=rate, fill=species)) +
+  geom_histogram(bins=15) +
+  scale_fill_brewer(palette="Dark2") 
+```
+
+# Histogram by species (faceted)
+```
+ggplot(crickets, aes(x=rate)) +
+  geom_histogram(bins=15) +
+  facet_wrap(~species)
+```  
+
+# Faceted with custom columns
+```
+ggplot(crickets, aes(x=rate, fill=species)) +
+  geom_histogram(bins=15, show.legend=FALSE) +
+  facet_wrap(~species, ncol=1) +
+  scale_fill_brewer(palette="Dark2")
+```  
+
+  
+# ======================
+# SESSION INFO
+# ======================
+```
+sessionInfo()
+  
+```
