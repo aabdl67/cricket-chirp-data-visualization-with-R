@@ -5,7 +5,7 @@ This repository contains R code and visualizations exploring the relationship be
 ## Project Structure
 
 ```
-cricket-visualization/
+cricket-chirp-data-visualization-with-R/
 ├── text_file.Rmd                # Main analysis report (R Markdown)
 ├── README.md                    # Project documentation
 ├── cricket-visualization.Rproj  # RStudio project config
