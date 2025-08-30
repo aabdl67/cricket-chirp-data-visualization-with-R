@@ -6,10 +6,10 @@ This repository contains R code and visualizations exploring the relationship be
 
 ```
 cricket-chirp-data-visualization-with-R/
-├── text_file.Rmd                # Main analysis report (R Markdown)
 ├── README.md                    # Project documentation
 ├── cricket-visualization.Rproj  # RStudio project config
 ├── .gitignore                   # Git exclusion rules
+├── text_file.Rmd                # Main analysis report (R Markdown)
 │
 ├── 1_Original_Scatterplots/     # Scatterplot visualizations
 │   ├── Rplot1_Colored_by_species.png
